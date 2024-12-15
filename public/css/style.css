@@ -1,0 +1,336 @@
+/* Kode sebelumnya */
+body {
+    font-family: 'Montserrat';
+}
+
+.c-item {
+    height: 1000px;
+}
+
+.c-img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 55%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: left;
+    z-index: 10;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.carousel-caption h2 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.carousel-caption p {
+    font-size: 1.2rem;
+}
+
+.carousel-caption .btn {
+    background-color: #009970;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+.carousel-caption .btn:hover {
+    color: #009970;
+    background-color: white;
+}
+
+.card {
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+.img-logo {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.container-fluid {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.offcanvas-body {
+    text-align: center;
+}
+
+.navbar {
+    background-color: whitesmoke;
+    height: 80px;
+    margin: 20px;
+    border-radius: 30px;
+    padding: 0.5rem;
+}
+
+.navbar-brand {
+    font-weight: 500;
+    color: #009970;
+    font-size: 24px;
+    transition: 0.3s color;
+}
+
+.login-button {
+    background-color: #009970;
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.3s background-color;
+}
+
+.login-button:hover {
+    background-color: #00b383;
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.nav-link {
+    color: #666777;
+    font-weight: 500;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #000;
+}
+
+.custom-button {
+    background-color: #009970;
+    border: none;
+}
+
+.custom-button:hover {
+    color: #009970;
+    background-color: black;
+}
+
+.next-logo {
+    background-color: #009970;
+}
+
+.prev-logo {
+    background-color: #009970;
+}
+
+@media (min-width: 1000px) {
+    .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: #009970;
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+        width: 100%;
+        visibility: visible;
+    }
+}
+
+.content-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+}
+
+.content-caption {
+    position: absolute;
+    top: 55%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: left;
+    z-index: 10;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.custom-image {
+    display: flex;
+    align-items: center; /* Mengatur posisi vertikal */
+    width: 300px;  /* Ukuran gambar lebih kecil */
+    height: 300px; /* Ukuran gambar lebih kecil */
+}
+
+
+.item {
+    height: 785px;
+}
+
+.gambar {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.gelombang {
+    background-color: #fff;
+    border: 1px solid #009970;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Responsiveness for carousel */
+.carousel-caption h2 {
+    font-size: 2.5vw;
+}
+
+.carousel-caption h5 {
+    font-size: 1.5vw;
+}
+
+.carousel-caption p {
+    font-size: 1.2vw;
+}
+
+.carousel-caption a {
+    font-size: 1vw;
+}
+
+@media (max-width: 768px) {
+    .carousel-caption h2 {
+        font-size: 5vw;
+    }
+
+    .carousel-caption h5 {
+        font-size: 3vw;
+    }
+
+    .carousel-caption p {
+        font-size: 2.5vw;
+    }
+
+    .carousel-caption a {
+        font-size: 2vw;
+    }
+
+    .carousel-caption {
+        padding: 0 10px;
+    }
+    .card-title {
+        font-size: 1.25rem; /* Kecilkan ukuran font judul */
+    }
+
+    .card-text {
+        font-size: 0.875rem; /* Kecilkan ukuran font teks */
+    }
+
+    
+}
+
+@media (min-width: 768px) and (max-width: 1400px) {
+    .col-custom {
+        flex: 0 0 100%; /* Buat kolom mengambil lebar penuh */
+        max-width: 100%; /* Pastikan tidak ada batasan lebar */
+    }
+
+    .custom-image {
+        width: 400px;  /* Ukuran gambar lebih kecil */
+        height: 400px; /* Ukuran gambar lebih kecil */
+    }
+
+    .col-custom {
+        flex: 0 0 100%; /* Kolom mengambil lebar penuh */
+        max-width: 100%; /* Pastikan tidak ada batasan lebar */
+    }
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.col-md-6 {
+    padding-top: 50px; /* Tambahkan jarak vertikal antara gambar dan teks */
+}
+
+.pt-10 {
+    padding-top: 4rem !important;
+}
+
+.pb-21 {
+    padding-bottom: 15rem !important;
+}
+
+.mt-n22 {
+    margin-top: -8rem !important;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
