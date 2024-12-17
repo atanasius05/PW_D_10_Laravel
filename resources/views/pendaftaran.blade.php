@@ -171,7 +171,7 @@
 
     <div class="container my-3" style="padding: 5px;">
         <div class="container my-4">
-            <h2 class="text-center mb-4" style="color: #009970;">Jadwal PPDB</h2>
+            <h2 class="text-center mb-4" style="color: #009970;">Rincian Biaya Pendidikan</h2>
         </div>
         <div class="card shadow-sm">
             <div class="card-header text-center" style="background-color: #009970; color:#fff;">

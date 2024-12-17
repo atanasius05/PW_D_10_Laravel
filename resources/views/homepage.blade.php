@@ -75,7 +75,7 @@
                     <h2>DENGAN JIWA KEPEMIMPINAN</h2>
                     <p>SMAK St. Augustinus Kediri berkomitmen untuk menjadi sekolah swasta Katolik dengan jiwa
                         kepemimpinan yang tinggi.</p>
-                    <a href="#" class="btn btn-light btn-lg">GET STARTED</a>
+                    <a onclick="window.location.href='{{ url('ppdbFormulir') }}'" class="btn btn-light btn-lg">GET STARTED</a>
                 </div>
             </div>
             <div class="carousel-item c-item">
