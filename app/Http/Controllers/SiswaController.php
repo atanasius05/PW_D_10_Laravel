@@ -169,4 +169,21 @@ class SiswaController extends Controller
         // Redirect back with success message
         return back()->with('success', 'Profile updated successfully');
     }
+
+    public function destroy($id)
+{
+    // Temukan siswa berdasarkan ID
+    $siswa = Siswa::findOrFail($id);
+
+    // Cek apakah siswa memiliki foto profil dan hapus jika ada
+    if ($siswa->profilePic) {
+        Storage::disk('public')->delete($siswa->profilePic);
+    }
+
+    // Hapus data siswa
+    $siswa->delete();
+
+    // Redirect kembali dengan pesan sukses
+    return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil dihapus');
+}
 }

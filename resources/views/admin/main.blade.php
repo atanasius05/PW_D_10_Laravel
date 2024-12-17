@@ -2,6 +2,34 @@
 
 @section('contentmain')
 
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Berhasil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="successMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        @if (session('success'))
+            var successMessage = "{{ session('success') }}";
+            document.getElementById('successMessage').innerText = successMessage;
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        @endif
+    });
+</script>
+
 <head>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
@@ -100,8 +128,8 @@
         <!-- Infocard Section -->
         <section class="row mb-4 justify-content-center">
             <!-- Card for Kelas -->
-            <div class="col-md-4">
-                <div class="card text-center shadow-sm" style="background-color: #e3f2fd; border-radius: 20px;">
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm" style="background-color: #e8f5e9    ; border-radius: 20px;">
                     <div class="card-body">
                         <h4 class="card-title"><strong>Total Kelas</strong></h4>
                         <h1 class="card-text">{{ $totalKelas }}</h1>
@@ -109,8 +137,8 @@
                 </div>
             </div>
             <!-- Card for Guru -->
-            <div class="col-md-4">
-                <div class="card text-center shadow-sm" style="background-color: #ffebee; border-radius: 20px;">
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm" style="background-color: #e8f5e9; border-radius: 20px;">
                     <div class="card-body">
                         <h4 class="card-title"><strong>Total Guru</strong></h4>
                         <h1 class="card-text">{{ $totalGuru }}</h1>
@@ -118,11 +146,19 @@
                 </div>
             </div>
             <!-- Card for Siswa -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card text-center shadow-sm" style="background-color: #e8f5e9; border-radius: 20px;">
                     <div class="card-body">
                         <h4 class="card-title"><strong>Total Siswa</strong></h4>
                         <h1 class="card-text">{{ $totalSiswa }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm" style="background-color: #e8f5e9; border-radius: 20px;">
+                    <div class="card-body">
+                        <h4 class="card-title"><strong>Total Ekskul</strong></h4>
+                        <h1 class="card-text">{{ $totalEkskul }}</h1>
                     </div>
                 </div>
             </div>

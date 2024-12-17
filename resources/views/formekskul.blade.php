@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +16,18 @@
 
     <style>
         body {
-            background-color: #f0f0f0; 
-            padding-top: 70px; 
+            background-color: #f0f0f0;
+            padding-top: 70px;
         }
-        
     </style>
 
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #009970">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="{{ url('homepage') }}">
-                <img class="img-logo" src="{{asset('images/logo.png')}}" alt="logo" style="margin-right: 10px;"> 
+                <img class="img-logo" src="{{asset('images/logo.png')}}" alt="logo" style="margin-right: 10px;">
             </a>
             <div class="text-center flex-grow-1">
                 <span class="navbar-text text-white" style="font-size: 1.5rem;">
@@ -35,43 +36,45 @@
             </div>
         </div>
     </nav>
-    
-    <section 
-    class="container my-2 w-50 bg-white text-dark p-5 mt-5 " 
-    style="border: 2px solid #cccccc; border-radius: 5px; padding: 50px; margin-top: 120px;">
-        <form class="row g-3" action="{{ url('pendaftaranekskul') }}" method="GET">
+
+    <section class="container my-2 w-50 bg-white text-dark p-5 mt-5"
+        style="border: 2px solid #cccccc; border-radius: 5px; padding: 50px; margin-top: 120px;">
+        <form class="row g-3" action="{{ url('pendaftaranekskul') }}" method="POST">
             @csrf
             <div class="col-12">
                 <label for="inputNama" class="form-label" style="font-weight: bold;">Nama Lengkap</label>
-                <input type="text" class="form-control" id="inputNama" placeholder="Tulis Nama Lengkap" required>
+                <input type="text" class="form-control" id="inputNama" name="nama" value="{{ $siswa->nama }}" readonly>
             </div>
-            <div class="col-md-6">
-                <label for="inputNISN" class="form-label" style="font-weight: bold;">Kelas</label>
-                <input type="text" class="form-control" id="inputKelas" placeholder="Masukkan Kelas" required>
-            </div>
-            <div class="col-md-6">
-                <label for="inputJenisKelamin" class="form-label" style="font-weight: bold;" >Jenis Kelamin</label>
-                <select id="inputJenisKelamin" class="form-select" required>
-                    <option hidden></option>
-                    <option value="laki-laki">Laki-laki</option>
-                    <option value="perempuan">Perempuan</option>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label for="inputEkskul" class="form-label" style="font-weight: bold;">Ekstrakurikuler</label>
-                <select id="inputEkskul" class="form-select" required>
-                    <option hidden></option>
-                    <option value="basket">Basket</option>
-                    <option value="Voli">Voli</option>
-                    <option value="Band">Band</option>
-                    <option value="Futsal">Futsal</option>
-                </select>
+            <div class="col-12">
+                <label for="inputEmail" class="form-label" style="font-weight: bold;">Email</label>
+                <input type="email" class="form-control" id="inputEmail" name="email" value="{{ $siswa->email }}"
+                    readonly>
             </div>
             <div class="col-md-6">
                 <label for="inputTelepon" class="form-label" style="font-weight: bold;">Nomor Telepon</label>
-                <input type="text" class="form-control" id="inputTelepon" placeholder="Masukkan Nomor Telepon" required>
+                <input type="text" class="form-control" id="inputTelepon" name="no_telp" value="{{ $siswa->no_telp }}"
+                    readonly>
             </div>
-
+            <div class="col-md-6">
+                <label for="inputTanggalLahir" class="form-label" style="font-weight: bold;">Tanggal Lahir</label>
+                <input type="date" class="form-control" id="inputTanggalLahir" name="tanggal_lahir"
+                    value="{{ $siswa->tanggal_lahir }}" readonly>
+            </div>
+            <div class="mb-2">
+                <label for="id_ekskul" class="form-label" style="font-weight: bold;">Pilih Ekstrakurikuler</label>
+                <select class="form-control" id="id_ekskul" name="id_ekskul" required>
+                    <option value="" disabled selected>-- Pilih Ekstrakurikuler --</option>
+                    @foreach($jenisEkskuls as $ekskul)
+                        <option value="{{ $ekskul->id_ekskul }}">{{ $ekskul->nama_ekskul }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label for="inputTanggalPendaftaran" class="form-label" style="font-weight: bold;">Tanggal
+                    Pendaftaran</label>
+                <input type="date" class="form-control" id="inputTanggalPendaftaran" name="tanggal_pendaftaran"
+                    required>
+            </div>
             <div class="col-12">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="gridCheck" required>
@@ -86,54 +89,49 @@
         </form>
     </section>
 
-    <footer
-            class="text-center text-lg-start text-black fixed"
-            style="background-color: #f0f0f0"
-            >
 
-    <section class="">
-        <div class="container text-center text-md-start mt-5">
+    <footer class="text-center text-lg-start text-black fixed" style="background-color: #f0f0f0">
 
-        <div class="row mt-4">
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
 
-            <div class="col-md-4 col-lg-5 col-xl-4 mx-auto mb-4">
+                <div class="row mt-4">
 
-            <h6 class="text-uppercase fw-bold"><span> <img class="img-logo" src="{{asset('images/logo.png')}}" alt="gambar logo"> </span>SMA Katolik St. Augustinus Kediri</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-                <p>Jl. Veteran No.3, Mojoroto, Kec. Mojoroto, Kota Kediri, Jawa Timur 64112</p>
+                    <div class="col-md-4 col-lg-5 col-xl-4 mx-auto mb-4">
+
+                        <h6 class="text-uppercase fw-bold"><span> <img class="img-logo"
+                                    src="{{asset('images/logo.png')}}" alt="gambar logo"> </span>SMA Katolik St.
+                            Augustinus Kediri</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: #7c4dff; height: 2px" />
+                        <p>Jl. Veteran No.3, Mojoroto, Kec. Mojoroto, Kota Kediri, Jawa Timur 64112</p>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <h6 class="text-uppercase fw-bold">Sosial Media</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: #7c4dff; height: 2px" />
+                        <p>
+                            <a href="{{ url('https://www.instagram.com/smakaugustinus.kdr/')}}"
+                                class="text-black bi bi-instagram"> Instagram</a>
+                        </p>
+                        <p>
+                            <a href="{{ url('https://youtube.com/@smakstaugustinuskediri9465?si=X9bLYRbnxJVYqa75')}}"
+                                class="text-black bi bi-youtube"> Youtube</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-black bi bi-facebook"> Facebook</a>
+                        </p>
+                    </div>
+
+                </div>
+
             </div>
+        </section>
 
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                <h6 class="text-uppercase fw-bold">Sosial Media</h6>
-                <hr
-                    class="mb-4 mt-0 d-inline-block mx-auto"
-                    style="width: 60px; background-color: #7c4dff; height: 2px"
-                    />
-                <p>
-                <a href="{{ url('https://www.instagram.com/smakaugustinus.kdr/')}}" class="text-black bi bi-instagram"> Instagram</a>
-                </p>
-                <p>
-                <a href="{{ url('https://youtube.com/@smakstaugustinuskediri9465?si=X9bLYRbnxJVYqa75')}}" class="text-black bi bi-youtube"> Youtube</a>
-                </p>
-                <p>
-                <a href="#!" class="text-black bi bi-facebook"> Facebook</a>
-                </p>
-            </div>
-
+        <div class="text-center p-3 text-white" style="background-color: #009970">
+            © 2024 Copyright: SMAK Katolik St. Augustinus Kediri
         </div>
-
-        </div>
-    </section>
-
-    <div
-        class="text-center p-3 text-white"
-        style="background-color: #009970"
-        >
-        © 2024 Copyright: SMAK Katolik St. Augustinus Kediri
-    </div>
 
     </footer>
 
@@ -141,4 +139,5 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

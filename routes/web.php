@@ -11,12 +11,14 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Kernel;
 use App\Http\Controllers\JenisEkskulController;
+use App\Http\Controllers\PendaftaranEkskulController;
 
 // Resources routes
 Route::resource('jenis_ekskul', JenisEkskulController::class);
 Route::resource('guru', GuruController::class);
 Route::resource('kelas', KelasController::class);
 Route::resource('siswa', SiswaController::class);
+Route::resource('pendaftaranEkskul', PendaftaranEkskulController::class);
 
 
 // Login routes
@@ -85,6 +87,10 @@ Route::middleware(['admin.auth'])->group(function () {
 
     Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
 
+
+    Route::delete('/pendaftaran-ekskul/{id}', [PendaftaranEkskulController::class, 'destroy'])->name('pendaftaranEkskul.delete');
+
+
     Route::get('/admin/main', [AdminController::class, 'fetchPendingPendaftaranSiswa'])->name('admin.main');
     Route::patch('/admin/pendaftaran/accept/{id}', [AdminController::class, 'acceptPendaftaran'])->name('admin.acceptPendaftaran');
     Route::patch('/admin/pendaftaran/reject/{id}', [AdminController::class, 'rejectPendaftaran'])->name('admin.rejectPendaftaran');
@@ -92,6 +98,7 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::get('/admin/guru', [GuruController::class, 'index'])->name('admin.guru');
     Route::get('/admin/jenisekskul', [JenisEkskulController::class, 'index'])->name('admin.jenisekskul');
     Route::get('/admin/siswa', [SiswaController::class, 'index'])->name('admin.siswa');
+    Route::get('/admin/pendaftaranEkskul', [PendaftaranEkskulController::class, 'fetchAllDataPendaftaranEkskul'])->name('admin.pendaftaranEkskul');
     Route::get('/profileadmin', [AdminController::class, 'index'])->name('admin.profile');
     Route::put('/profileadmin/{id_admin}/update-picture', [AdminController::class, 'updateProfilePicture'])->name('admin.update.picture');
 
@@ -116,4 +123,7 @@ Route::middleware(['siswa.auth'])->group(function () {
     // Route::get('/User/profil', function () {
     //     return view('/User/profilUser');
     // });
+    // Pendaftaran Ekstrakurikuler
+    Route::get('/formekskul', [PendaftaranEkskulController::class, 'createForm'])->name('pendaftaran.formekskul');
+    Route::post('/pendaftaranekskul', [PendaftaranEkskulController::class, 'store'])->name('pendaftaran.store');
 });

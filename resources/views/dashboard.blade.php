@@ -12,8 +12,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.0.0/mdb.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 <style>
@@ -125,7 +128,7 @@
         <!-- Sidebar -->
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
-                <div class="list-group list-group-flush mx-3 mt-4">
+                <div class="list-group list-group-flush mx-2 mt-4">
                     <a href="{{ url('admin/main') }}" class="list-group-item list-group-item-action py-2 "
                         id="dashboard-menu">
                         <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
@@ -146,7 +149,10 @@
                         id="users-menu">
                         <i class="fas fa-solid fa-layer-group fa-fw me-3"></i><span>Jenis Ekskul</span>
                     </a>
-
+                    <a href="{{ url('admin/pendaftaranEkskul') }}" class="list-group-item list-group-item-action py-2"
+                        id="users-menu">
+                        <i class="fas fa-solid fa-icons fa-fw me-3"></i><span>Pendaftaran Ekskul</span>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -181,8 +187,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                             id="navbarDropdownMenuLink" role="button" data-mdb-dropdown-init aria-expanded="false">
-                            <img src="{{asset('images/Photo2.jpg')}}" class="rounded-circle" height="25" alt=""
-                                loading="lazy" />
+                            Profil
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="{{ url('profileadmin') }}">My profile</a></li>
@@ -204,6 +209,7 @@
         @yield('contentguru')
         @yield('contentsiswa')
         @yield('contentjenisekskul')
+        @yield('contentpendaftaranEkskul')
     </div>
     <!--Main layout-->
 

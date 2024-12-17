@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Jenis_Ekskul;
 use App\Models\Pendaftaran_Siswa;
 use App\Models\Siswa;
 use App\Models\Guru;
@@ -131,12 +132,13 @@ class AdminController extends Controller
         $totalKelas = Kelas::count(); // Jumlah Kelas
         $totalGuru = Guru::count();   // Jumlah Guru
         $totalSiswa = Siswa::count(); // Jumlah Siswa
+        $totalEkskul = Jenis_Ekskul::count(); // Jumlah Ekskul
         $pendingPendaftarans = Pendaftaran_Siswa::where('status', 'pending')->get();
         // Retrieve all pending student registrations
         $pendingPendaftarans = Pendaftaran_Siswa::where('status', 'pending')->get();
 
         // Return the view with the pending registrations
-        return view('admin.main', compact('totalKelas', 'totalGuru', 'totalSiswa', 'pendingPendaftarans'));
+        return view('admin.main', compact('totalKelas', 'totalGuru', 'totalSiswa', 'totalEkskul', 'pendingPendaftarans'));
     }
     public function acceptPendaftaran($id)
     {
@@ -162,10 +164,10 @@ class AdminController extends Controller
         // Randomly assign id_kelas between 1 and 10
         $randomIdKelas = null;
         do {
-            $randomIdKelas = rand(1, 10); // Randomly generate a number between 1 and 10
+            $randomIdKelas = rand(1, 6); // Randomly generate a number between 1 and 10
             // Check if the generated id_kelas already exists in the Siswa table
-            $exists = Siswa::where('id_kelas', $randomIdKelas)->exists();
-        } while ($exists); // Repeat if the generated id_kelas already exists
+            $exists = Kelas::where('id_kelas', $randomIdKelas)->exists();
+        } while (!$exists); // Repeat if the generated id_kelas already exists
 
         // Set the valid random id_kelas to the siswaData
         $siswaData['id_kelas'] = $randomIdKelas;

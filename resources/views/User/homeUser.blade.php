@@ -418,6 +418,16 @@
             elements.forEach(el => observer.observe(el));
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            @if (session('success'))
+                // Ambil elemen toast
+                var successToast = new bootstrap.Toast(document.getElementById('successToast'));
+                // Tampilkan toast
+                successToast.show();
+            @endif
+        });
+    </script>
 </body>
 
 </html>

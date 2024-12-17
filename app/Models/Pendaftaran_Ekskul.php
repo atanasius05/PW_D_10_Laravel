@@ -11,11 +11,10 @@ class Pendaftaran_Ekskul extends Model
 
     protected $table = 'pendaftaran_ekskuls';
 
-    protected $primaryKey = 'id_pendaftaran_ekskul';
+    protected $primaryKey = 'id_pendaftaran';
     protected $fillable = [
         'id_siswa',
         'id_ekskul',
-        'id_admin',
         'tanggal_pendaftaran',
     ];
 

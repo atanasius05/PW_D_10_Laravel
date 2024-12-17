@@ -42,9 +42,6 @@
                         <li class="nav-item">
                             <a class="nav-link mx-lg-2 active" aria-current="page" href="{{url('kontak') }}"><strong>KONTAK</strong></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link mx-lg-2" href="{{url('pendaftaranekskul') }}"><strong>EKSTRAKURIKULER</strong></a>
-                        </li>
                     </ul>
                 </div>
             </div>

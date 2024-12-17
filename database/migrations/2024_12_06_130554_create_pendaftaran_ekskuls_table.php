@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id('id_pendaftaran');
             $table->unsignedBigInteger('id_siswa');
             $table->unsignedBigInteger('id_ekskul');
-            $table->unsignedBigInteger('id_admin');
             $table->date('tanggal_pendaftaran');
             $table->timestamps();
 
             $table->foreign('id_siswa')->references('id_siswa')->on('siswas')->onDelete('cascade'); // Foreign key
             $table->foreign('id_ekskul')->references('id_ekskul')->on('jenis_ekskuls')->onDelete('cascade'); // Foreign key
-            $table->foreign('id_admin')->references('id_admin')->on('admins')->onDelete('cascade'); // Foreign key
         });
     }
 
