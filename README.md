@@ -2,9 +2,9 @@
 ## Kelas D Kelompok 10
 
 ### Anggota Kelompok:
-- Atanasius Fiko Primawardana (220711652) - Backend & Autentikasi Middleware
+- Atanasius Fiko Primawardana (220711652) - Backend & Autentikasi Middleware dan Integrasi
 - Lana Marcel Argya N. (220711681) - Frontend & Integrasi
-- Taura Fransiskus Darsono (210711410) - Frontend & Integrasi
+- Taura Fransiskus Darsono (210711410) - Frontend
 
 ### Username & Password Login:
 - Login User:
