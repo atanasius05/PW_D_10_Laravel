@@ -68,10 +68,10 @@ return [
     */
 
     'providers' => [
-        // 'users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\User::class,
-        // ],
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ], 
         'siswas' => [
             'driver' => 'eloquent',
             'model' => App\Models\Siswa::class,

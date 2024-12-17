@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <a href="{{ url('loginpage') }}" class="login-button">Login</a>
+            <a href="{{ url('login') }}" class="login-button">Login</a>
             <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

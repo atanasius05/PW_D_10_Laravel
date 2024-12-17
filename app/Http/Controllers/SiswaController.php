@@ -15,7 +15,7 @@ class SiswaController extends Controller
     public function index()
     {
         $siswas = Siswa::all();
-        return view('siswas.index', compact('siswas'));
+        return view('admin.siswa', compact('siswas'));
     }
 
     public function create($pendaftaranSiswaId)
@@ -73,10 +73,10 @@ class SiswaController extends Controller
             'password' => 'required|string'
         ]);
 
-        // Use SHA2 for password verification
+        // Direct password comparison (no hashing)
         $siswa = DB::table('siswas')
             ->where('email', $request->username)
-            ->where('password', hash('sha256', $request->password))
+            ->where('password', $request->password) // Compare directly with the plain password
             ->first();
 
         if ($siswa) {
@@ -91,7 +91,7 @@ class SiswaController extends Controller
             session(['siswa_id' => $siswa->id_siswa]);
 
             // Redirect to student dashboard
-            return redirect()->route('siswa.dashboard');
+            return redirect()->route('user.home');
         }
 
         // If credentials are incorrect
@@ -100,10 +100,73 @@ class SiswaController extends Controller
         ])->withInput();
     }
 
+
     public function logout()
     {
         // Clear student session
         session()->forget('siswa_id');
         return redirect()->route('login');
+    }
+
+    public function show($id = null)
+    {
+        // If no ID is provided, use the currently logged-in student's ID
+        if ($id === null) {
+            $id = session('siswa_id');
+        }
+
+        // Fetch the student details
+        $siswa = Siswa::findOrFail($id);
+
+        return view('User.profilUser', compact('siswa'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'email' => 'sometimes|email|unique:siswas,email,' . session('siswa_id') . ',id_siswa',
+            'current_password' => 'nullable|string',
+            'new_password' => 'nullable|min:6|required_with:current_password',
+            'confirm_password' => 'nullable|same:new_password',
+            'profile_picture' => 'nullable|image|max:2048'
+        ]);
+
+        // Fetch the current logged-in student
+        $siswa = Siswa::findOrFail(session('siswa_id'));
+
+        // Handle email update
+        if (isset($validatedData['email'])) {
+            $siswa->email = $validatedData['email'];
+        }
+
+        // Handle password update
+        if (isset($validatedData['current_password']) && isset($validatedData['new_password'])) {
+            // Verify current password (assuming direct comparison for now)
+            if ($siswa->password !== $validatedData['current_password']) {
+                return back()->withErrors(['current_password' => 'Current password is incorrect']);
+            }
+
+            // Update password
+            $siswa->password = $validatedData['new_password'];
+        }
+
+        // Handle profile picture update
+        if ($request->hasFile('profile_picture')) {
+            // Delete old profile pic if exists
+            if ($siswa->profilePic) {
+                Storage::disk('public')->delete($siswa->profilePic);
+            }
+
+            // Store new profile picture
+            $profilePicPath = $request->file('profile_picture')->store('profilePics/siswa', 'public');
+            $siswa->profilePic = $profilePicPath;
+        }
+
+        // Save the updated student information
+        $siswa->save();
+
+        // Redirect back with success message
+        return back()->with('success', 'Profile updated successfully');
     }
 }

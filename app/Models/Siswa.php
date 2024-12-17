@@ -11,6 +11,8 @@ class Siswa extends Authenticatable
 
     protected $primaryKey = 'id_siswa';
 
+
+    protected $table = 'siswas';
     protected $fillable = [
         'id_pendaftaranSiswa',
         'id_admin',
@@ -27,10 +29,6 @@ class Siswa extends Authenticatable
         'email',
         'password',
         'status'
-    ];
-
-    protected $hidden = [
-        'password'
     ];
 
     public function pendaftaranSiswa()

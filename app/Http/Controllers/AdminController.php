@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Pendaftaran_Siswa;
 use App\Models\Siswa;
+use App\Models\Guru;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +18,7 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::all();
-        return view('admins.index', compact('admins'));
+        return view('profileadmin', compact('admins'));
     }
 
     public function create(Request $request)
@@ -89,30 +91,33 @@ class AdminController extends Controller
 
     public function login(Request $request)
     {
+        // Validate the incoming request
         $request->validate([
             'username' => 'required|string|email',
             'password' => 'required|string'
         ]);
 
-        // Use SHA2 for password verification
+        // Attempt to authenticate the admin using the 'admin' guard
         $admin = DB::table('admins')
             ->where('email', $request->username)
-            ->where('password', hash('sha256', $request->password))
             ->first();
 
-        if ($admin) {
-            // Manually log in the admin
+        // Check if admin exists and verify password
+        if ($admin && hash('sha256', $request->password) === $admin->password) {
+            // Log in the admin by setting the session manually
             session(['admin_id' => $admin->id_admin]);
 
-            // Redirect to admin dashboard
+            // Redirect to the admin dashboard
             return redirect()->route('admin.main');
         }
 
-        // If credentials are incorrect
+        // If authentication fails, redirect back with error message
         return back()->withErrors([
             'username' => 'The provided credentials are incorrect.'
         ])->withInput();
     }
+
+
 
     public function logout()
     {
@@ -123,37 +128,63 @@ class AdminController extends Controller
 
     public function fetchPendingPendaftaranSiswa()
     {
+        $totalKelas = Kelas::count(); // Jumlah Kelas
+        $totalGuru = Guru::count();   // Jumlah Guru
+        $totalSiswa = Siswa::count(); // Jumlah Siswa
         $pendingPendaftarans = Pendaftaran_Siswa::where('status', 'pending')->get();
-        return view('admin.pending-pendaftaran', compact('pendingPendaftarans'));
-    }
+        // Retrieve all pending student registrations
+        $pendingPendaftarans = Pendaftaran_Siswa::where('status', 'pending')->get();
 
+        // Return the view with the pending registrations
+        return view('admin.main', compact('totalKelas', 'totalGuru', 'totalSiswa', 'pendingPendaftarans'));
+    }
     public function acceptPendaftaran($id)
     {
+        // Check if the admin session exists
+        $adminId = session('admin_id');
+
+        if (!$adminId) {
+            return redirect()->route('login')->withErrors(['message' => 'Please log in to continue.']);
+        }
+
+        // Find the Pendaftaran_Siswa by ID
         $pendaftaran = Pendaftaran_Siswa::findOrFail($id);
-        
-        // Change status to accepted
+
+        // Change the status to accepted
         $pendaftaran->status = 'accepted';
         $pendaftaran->save();
 
-        // Create Siswa from the accepted PendaftaranSiswa
+        // Prepare data for the new Siswa record
         $siswaData = $pendaftaran->toArray();
         $siswaData['id_pendaftaranSiswa'] = $pendaftaran->id_pendaftaranSiswa;
-        $siswaData['id_admin'] = Auth::guard('admin')->user()->id_admin;
-        
-        // You might want to set a default kelas or have logic to assign a kelas
-        // For now, we'll leave id_kelas null
-        unset($siswaData['id_kelas']);
+        $siswaData['id_admin'] = $adminId; // Use the admin ID from the session
 
+        // Randomly assign id_kelas between 1 and 10
+        $randomIdKelas = null;
+        do {
+            $randomIdKelas = rand(1, 10); // Randomly generate a number between 1 and 10
+            // Check if the generated id_kelas already exists in the Siswa table
+            $exists = Siswa::where('id_kelas', $randomIdKelas)->exists();
+        } while ($exists); // Repeat if the generated id_kelas already exists
+
+        // Set the valid random id_kelas to the siswaData
+        $siswaData['id_kelas'] = $randomIdKelas;
+
+        // Create a new Siswa record from the Pendaftaran_Siswa data
         Siswa::create($siswaData);
 
-        return redirect()->route('admin.pending-pendaftaran')
+        // Redirect to the pending registrations page with a success message
+        return redirect()->route('admin.main')
             ->with('success', 'Pendaftaran Siswa accepted and Siswa created');
     }
+
+
+
 
     public function rejectPendaftaran($id)
     {
         $pendaftaran = Pendaftaran_Siswa::findOrFail($id);
-        
+
         // Change status to rejected
         $pendaftaran->status = 'rejected';
         $pendaftaran->save();
@@ -166,7 +197,7 @@ class AdminController extends Controller
         // Delete the PendaftaranSiswa record
         $pendaftaran->delete();
 
-        return redirect()->route('admin.pending-pendaftaran')
+        return redirect()->route('admin.main')
             ->with('success', 'Pendaftaran Siswa rejected and deleted');
     }
 
@@ -184,4 +215,33 @@ class AdminController extends Controller
         return redirect()->route('admin.siswa-list')
             ->with('success', 'Siswa deleted successfully');
     }
+
+    public function updateProfilePicture(Request $request, $id_admin)
+    {
+        $admin = Admin::findOrFail($id_admin);
+        // Validasi file gambar
+        $request->validate([
+            'profilePic' => 'nullable|image|max:2048'
+        ]);
+
+        try {
+            // Temukan admin berdasarkan ID
+
+            // Cek jika ada file gambar yang diupload
+            if ($request->hasFile('profilePic')) {
+                // Upload gambar ke folder 'profilePics' dalam storage 'public'
+                $profilePicPath = $request->file('profilePic')->store('profilePics', 'public');
+
+                // Update path gambar di database untuk admin tertentu
+                $admin->profilePic = $profilePicPath;
+                $admin->save();
+            }
+
+            return redirect()->route('admin.profile')->with('success', 'Foto profil berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengupload foto profil.');
+        }
+    }
+
+
 }

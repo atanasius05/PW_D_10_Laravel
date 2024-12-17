@@ -123,11 +123,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                             id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown">
-                            <img src="{{asset('images/Photo2.jpg')}}" class="rounded-circle" height="25" alt="avatar" />
+                            @foreach ($admins as $admin)
+                            <img src="{{asset('storage/' . $admin->profilePic)}}" class="rounded-circle" height="25" alt="avatar" />
+                            @endforeach
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="{{url('profileadmin') }}">My profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="{{ url('loginpage') }}">Logout</a></li>
                         </ul>
                     </li>
@@ -148,45 +149,26 @@
             <!-- Profile Picture Card -->
             <div class="card text-center">
                 <div class="card-body centered">
-                    <img src="{{asset('images/Photo2.jpg')}}" id="profile-picture" class="img-fluid rounded-circle mb-3"
-                        alt="Admin Profile Picture">
-                    <h5 id="admin-username">Username</h5>
-
-                    <form action="/change-profile-picture" method="POST" enctype="multipart/form-data">
+                @foreach ($admins as $admin)
+                <img src="{{ asset('storage/' . $admin->profilePic) }}" id="profile-picture" class="img-fluid rounded-circle mb-3" alt="Admin Profile Picture">
+                <h5 id="admin-username">{{ $admin->username }}</h5>
+            
+                    <form action="{{ route('admin.update.picture', ['id_admin' => $admin->id_admin]) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
                         <div class="mb-3 text-left">
                             <label for="profile-picture-upload" class="form-label">Change Profile Picture</label>
-                            <input type="file" class="form-control" id="profile-picture-upload" name="profile-picture">
+                            <input type="file" class="form-control" id="profile-picture-upload" name="profilePic">
                         </div>
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-success">Upload Foto Profile</button>
                         </div>
                     </form>
                 </div>
+                @endforeach
             </div>
 
             <!-- Change Password Card -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title mb-3">Change Password</h5>
-                    <form action="/change-password" method="POST">
-                        <div class="mb-3">
-                            <label for="current-password" class="form-label">Current Password</label>
-                            <input type="password" class="form-control" id="current-password" name="current-password"
-                                required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="new-password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="new-password" name="new-password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirm-password" class="form-label">Confirm New Password</label>
-                            <input type="password" class="form-control" id="confirm-password" name="confirm-password"
-                                required>
-                        </div>
-                        <button type="submit" class="btn btn-success">Update Password</button>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
     <script>

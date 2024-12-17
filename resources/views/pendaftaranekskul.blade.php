@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <a href="{{ url('loginpage') }}" class="login-button">Login</a>
+            <a href="{{ url('login') }}" class="login-button">Login</a>
             <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -64,7 +64,7 @@
                     <h2>PENDAFTARAN EKSTRAKURIKULER</h2>
                     <h4>SMAK ST. AUGUSTINUS KEDIRI</h4>
                     <p>ikuti dan daftar ekstrakurikuler yang seru </p>
-                    <a href="{{url('formekskul') }}" class="btn btn-light btn-lg">Daftar</a>
+                    <a href="{{url('login') }}" class="btn btn-light btn-lg">Daftar</a>
                 </div>
             </div>
         </div>

@@ -2,51 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jenis_Ekskul;
 use Illuminate\Http\Request;
+use App\Models\Jenis_Ekskul;
+use App\Models\Guru;
 
 class JenisEkskulController extends Controller
 {
-    public function fetchAllData()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        return response()->json(Jenis_Ekskul::all());
+        // Ambil semua data jenis ekskul dan data guru
+        $jenisEkskuls = Jenis_Ekskul::with('guru')->get();
+        $gurus = Guru::all();
+
+        // Return view dengan data jenis ekskul
+        return view('admin.jenisekskul', compact('jenisEkskuls', 'gurus'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
+        // Validasi data yang diterima
         $request->validate([
-            'nama' => 'required',
-            'id_guru' => 'required|exists:gurus,id_guru',
+            'id_guru' => 'required|exists:gurus,id_guru', // Pastikan id_guru valid
+            'nama_ekskul' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'hari' => 'required|string|max:20',
+            'jam' => 'required|string|max:20',
         ]);
 
-        $jenisEkskul = Jenis_Ekskul::create($request->all());
-        return response()->json($jenisEkskul, 201);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $jenisEkskul = Jenis_Ekskul::findOrFail($id);
-
-        $request->validate([
-            'nama' => 'sometimes',
-            'id_guru' => 'sometimes|exists:gurus,id_guru',
+        // Menyimpan data ke tabel jenis_ekskuls
+        Jenis_Ekskul::create([
+            'id_guru' => $request->id_guru,
+            'nama_ekskul' => $request->nama_ekskul,
+            'deskripsi' => $request->deskripsi,
+            'hari' => $request->hari,
+            'jam' => $request->jam,
         ]);
 
-        $jenisEkskul->update($request->all());
-        return response()->json($jenisEkskul);
+        // Redirect dengan pesan sukses
+        return redirect()->route('admin.jenisekskul')->with('success', 'Jenis Ekskul berhasil ditambahkan.');
     }
 
-    public function delete($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
     {
+        // Cari data berdasarkan ID
         $jenisEkskul = Jenis_Ekskul::findOrFail($id);
+
+        // Hapus data
         $jenisEkskul->delete();
 
-        return response()->json(['message' => 'Deleted successfully']);
-    }
-
-    public function search(Request $request)
-    {
-        $query = Jenis_Ekskul::where('nama', 'LIKE', "%{$request->keyword}%")->get();
-        return response()->json($query);
+        // Redirect dengan pesan sukses
+        return redirect()->route('jenis_ekskul.index')->with('success', 'Jenis Ekskul berhasil dihapus.');
     }
 }

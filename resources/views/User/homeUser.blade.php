@@ -18,47 +18,67 @@
 <body>
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand me-auto" href="{{ url('homepage') }}"><img class="img-logo"
-                    src="{{asset('images/logo.png')}}" alt="logo"></a>
+            <a class="navbar-brand me-auto" href="{{ url('/User/home') }}">
+                <img class="img-logo" src="{{ asset('images/logo.png') }}" alt="logo">
+            </a>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <p class="offcanvas-title" id="offcanvasNavbarLabel"><img class="img-logo"
-                            src="{{asset('images/logo.png')}}" alt="logo"> <strong>SMAK St. Augustinus Kediri</strong>
+                    <p class="offcanvas-title" id="offcanvasNavbarLabel">
+                        <img class="img-logo" src="{{ asset('images/logo.png') }}" alt="logo">
+                        <strong>SMAK St. Augustinus Kediri</strong>
                     </p>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link mx-lg-2 active" aria-current="page"
-                                href="{{url('homepage') }}"><strong>BERANDA</strong></a>
+                            <a class="nav-link mx-lg-2 active" aria-current="page" href="{{ url('/User/home') }}">
+                                <strong>BERANDA</strong>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-lg-2 " href="{{url('tentangkami') }}"><strong>TENTANG
-                                    KAMI</strong></a>
+                            <a class="nav-link mx-lg-2" href="{{ url('/User/tentangKami') }}">
+                                <strong>TENTANG KAMI</strong>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-lg-2" href="{{url('pendaftaran') }}"><strong>PENDAFTARAN</strong></a>
+                            <a class="nav-link mx-lg-2" href="{{ url('/User/kontak') }}">
+                                <strong>KONTAK</strong>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-lg-2" href="{{url('kontak') }}"><strong>KONTAK</strong></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link mx-lg-2"
-                                href="{{url('pendaftaranekskul') }}"><strong>EKSTRAKURIKULER</strong></a>
+                            <a class="nav-link mx-lg-2" href="{{ url('/User/Eksul') }}">
+                                <strong>EKSTRAKURIKULER</strong>
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <a href="{{ url('login') }}" class="login-button">Login</a>
+            <!-- Tambahan Dropdown Profil -->
+            <div class="dropdown ms-auto">
+                <button class="btn btn-success p-2 border-0 d-flex align-items-center justify-content-center"
+                    type="button" id="dropdownProfileButton" data-bs-toggle="dropdown" aria-expanded="false"
+                    style="border-radius: 20px; width: 130px;">
+                    <i class="bi bi-person" style="font-size: 1.5rem;"></i> <!-- Ikon User -->
+                    <span class="ms-2">Profile</span> <!-- Teks Profile -->
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownProfileButton">
+                    <li><a class="dropdown-item" href="{{ url('/User/profilUser') }}">Ubah Profil</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/login') }}">Keluar</a></li>
+                </ul>
+            </div>
+
+
+
             <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
     </nav>
+
 
     <div id="carouselExampleIndicators" class="carousel slide">
         <div class="carousel-indicators">
@@ -123,7 +143,7 @@
     </div>
 
     <!-- Container for Cards -->
-    <div class="container my-5" style="padding: 50px;">
+    <div class="container my-5 fade-in" style="padding: 50px;">
         <div class="row text-center">
             <div class="col-md-3 col-custom mb-4">
                 <div class="card text-white" style="background-color: #009970; border: none;">
@@ -161,9 +181,7 @@
             </div>
         </div>
     </div>
-
-
-    <div class="container my-5" style="padding: 20px;">
+    <div class="container my-5 fade-in" style="padding: 40px;">
         <div class="row">
             <div class="col-md-4 col-custom text-center" style="display:flex; align-items:center;">
                 <div class="rounded-circle overflow-hidden mx-auto custom-image">
@@ -190,7 +208,8 @@
             </div>
         </div>
     </div>
-    <div class="container my-5" style="padding: 20px;">
+
+    <div class="container my-5 fade-in" style="padding: 40px;">
         <div class="container my-5">
             <h6 class="text-center text-muted">Layanan Unggulan</h6>
             <h2 class="text-center mb-4">LAYANAN UNGGULAN</h2>
@@ -241,7 +260,7 @@
         </div>
     </div>
 
-    <div class="container my-5" style="padding: 20px;">
+    <div class="container my-5 fade-in" style="padding: 40px;">
         <h6 class="text-center text-muted">Alumi</h6>
         <h2 class="text-center mb-4">INI KATA MEREKA</h2>
         <hr class="w-100" style="border-top: 2px dashed #000; margin: 30px 0;">
@@ -382,10 +401,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-        <?php
-    session()->forget('siswa_id');
-    ?>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const elements = document.querySelectorAll(".fade-in");
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            });
+
+            elements.forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 
 </html>

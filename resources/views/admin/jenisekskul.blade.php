@@ -65,45 +65,46 @@
     <div class="container mt-n22 px-6">
         <div class="row mb-3">
             <div class="col-lg-12" style="padding-top:-40px;">
-                <h2 style="color:#fff;">Dashboard Kelas</h2>
+                <h2 style="color:#fff;">Dashboard Ekskul</h2>
             </div>
         </div>
 
-        <!-- Form Data Kelas -->
+        <!-- Form Data Jenis Ekskul -->
         <section class="mb-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center py-3">
-                    <h5 class="mb-0 text-center flex-grow-1"><strong>Form Data Kelas</strong></h5>
+                    <h5 class="mb-0 text-center flex-grow-1"><strong>Form Data Jenis Ekskul</strong></h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('kelas.store') }}" method="POST">
+                    <form action="{{ route('jenis_ekskul.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="tingkat_kelas" class="form-label">Tingkat Kelas</label>
-                            <select class="form-select" id="tingkat_kelas" name="tingkat_kelas">
-                                <option value="" hidden selected>Pilih Tingkat Kelas</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
+                            <label for="id_guru" class="form-label">Guru Pembimbing</label>
+                            <select class="form-select" id="id_guru" name="id_guru">
+                                <option value="" hidden selected>Pilih Guru Pembimbing</option>
+                                @foreach($gurus as $guru)
+                                    <option value="{{ $guru->id_guru }}">{{ $guru->id_guru }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="nama_kelas" class="form-label">Nama Kelas</label>
-                            <input type="text" class="form-control" id="nama_kelas" name="nama_kelas"
-                                placeholder="Masukkan Nama Kelas">
+                            <label for="nama_ekskul" class="form-label">Nama Ekskul</label>
+                            <input type="text" class="form-control" id="nama_ekskul" name="nama_ekskul"
+                                placeholder="Masukkan Nama Ekskul">
                         </div>
                         <div class="mb-3">
-                            <label for="jurusan" class="form-label">Jurusan</label>
-                            <select class="form-select" id="jurusan" name="jurusan">
-                                <option value="" hidden selected>Pilih Jurusan</option>
-                                <option value="MIPA">MIPA</option>
-                                <option value="IPS">IPS</option>
-                            </select>
+                            <label for="deskripsi" class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="deskripsi" name="deskripsi"
+                                placeholder="Masukkan Deskripsi"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="jumlah_siswa" class="form-label">Jumlah Siswa</label>
-                            <input type="number" class="form-control" id="jumlah_siswa" name="jumlah_siswa"
-                                placeholder="Masukkan Jumlah Siswa">
+                            <label for="hari" class="form-label">Hari</label>
+                            <input type="text" class="form-control" id="hari" name="hari"
+                                placeholder="Masukkan Hari Kegiatan">
+                        </div>
+                        <div class="mb-3">
+                            <label for="jam" class="form-label">Jam</label>
+                            <input type="time" class="form-control" id="jam" name="jam">
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-success">Tambah</button>
@@ -113,36 +114,36 @@
             </div>
         </section>
 
-        <!-- Display Kelas Data -->
+        <!-- Display Jenis Ekskul Data -->
         <section class="mb-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center py-3">
-                    <h5 class="mb-0 text-center flex-grow-1"><strong>Data Kelas</strong></h5>
+                    <h5 class="mb-0 text-center flex-grow-1"><strong>Data Jenis Ekskul</strong></h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover text-nowrap">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tingkat Kelas</th>
-                                    <th scope="col">Nama Kelas</th>
-                                    <th scope="col">Jurusan</th>
-                                    <th scope="col">Jumlah Siswa</th>
+                                    <th scope="col">Nama Ekskul</th>
+                                    <th scope="col">Guru Pembimbing</th>
+                                    <th scope="col">Deskripsi</th>
+                                    <th scope="col">Hari</th>
+                                    <th scope="col">Jam</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($kelas as $k)
+                                @foreach($jenisEkskuls as $ekskul)
                                     <tr>
-                                        <td>{{ $k->tingkat_kelas }}</td>
-                                        <td>{{ $k->nama_kelas }}</td>
-                                        <td>{{ $k->jurusan }}</td>
-                                        <td>{{ $k->jumlah_siswa }}</td>
+                                        <td>{{ $ekskul->nama_ekskul }}</td>
+                                        <td>{{ $ekskul->guru->nama }}</td>
+                                        <td>{{ $ekskul->deskripsi }}</td>
+                                        <td>{{ $ekskul->hari }}</td>
+                                        <td>{{ $ekskul->jam }}</td>
                                         <td>
-                                            <!-- <a href="{{ route('kelas.edit', [$k->id_kelas]) }}"
-                                                    class="btn btn-warning">Edit</a> -->
-                                            <form action="{{ route('kelas.destroy', $k->id_kelas) }}" method="POST"
-                                                style="display:inline;">
+                                            <form action="{{ route('jenis_ekskul.destroy', $ekskul->id_ekskul) }}"
+                                                method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Hapus</button>

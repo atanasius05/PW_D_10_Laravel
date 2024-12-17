@@ -31,10 +31,6 @@ class Pendaftaran_Siswa extends Model
         'tanggal_pendaftaran'
     ];
 
-    protected $hidden = [
-        'password'
-    ];
-
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'id_admin', 'id_admin');

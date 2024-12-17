@@ -11,6 +11,8 @@ class Jenis_Ekskul extends Model
 
     protected $table = 'jenis_ekskuls';
 
+    protected $primaryKey = 'id_ekskul';
+
     protected $fillable = [
         'id_guru',
         'nama_ekskul',

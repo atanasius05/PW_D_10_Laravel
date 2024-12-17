@@ -1,94 +1,43 @@
 <?php
 
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PendaftaranSiswaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Middleware\AdminAuthenticated;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Kernel;
+use App\Http\Controllers\JenisEkskulController;
 
+// Resources routes
+Route::resource('jenis_ekskul', JenisEkskulController::class);
 Route::resource('guru', GuruController::class);
-
 Route::resource('kelas', KelasController::class);
+Route::resource('siswa', SiswaController::class);
 
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 
-Route::get('/pendaftaran-siswas', [PendaftaranSiswaController::class, 'index'])->name('pendaftaran-siswas.index');
-Route::post('/pendaftaran-siswas/create', [PendaftaranSiswaController::class, 'create'])->name('pendaftaran-siswas.create');
+// Login routes
+Route::get('/login', function () {
+    return view('loginpage');  // Render the login page
+})->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.submit');
 
+// Non-admin routes for homepage, etc.
 Route::get('/', function () {
     return view('homepage');
 });
 
-Route::get('/loginpage', function () {
-    return view('loginpage');
-})->name('loginpage');
-
-// Route untuk admin dashboard with middleware
-Route::middleware([AdminAuthenticated::class])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    Route::get('/admin/main', function () {
-        return view('/admin/main', [
-            'dataKelas' => [KelasController::class, 'index'],
-            'dataGuru' => [GuruController::class, 'index'],
-            'dataMurid' => [
-               
-            ],
-            'infoCard' => [
-               
-            ]
-        ]);
-    })->name('admin.main');
-
-    Route::get('/admin/kelas', function () {
-        return view('admin.kelas');
-    })->name('admin.kelas');
-    
-    Route::get('/admin/kelas', [KelasController::class, 'index'])->name('admin.kelas');
-    Route::get('/kelas/edit/{id}', [KelasController::class, 'edit']);
-
-    
-
-    Route::get('/admin/guru', function () {
-        return view('admin.guru');
-    })->name('admin.guru');
-
-    Route::get('/admin/guru', [GuruController::class, 'index'])->name('admin.guru');
-
-    Route::get('/admin/murid', function () {
-        return view('admin.murid', [
-            'dataMurid' => [
-                ['NISN' => '0056148231', 'nama' => "Andi Pratama", 'jenisKelamin' => 'Laki-laki', 'alamat' => 'Jl. Merdeka No.5, Jakarta', 'notelp' => '081234567890', 'tingkatKelas' => 12],
-                ['NISN' => '0056148232', 'nama' => "Budi Santoso", 'jenisKelamin' => 'Laki-laki', 'alamat' => 'Jl. Sudirman No.7, Jakarta', 'notelp' => '081234567891', 'tingkatKelas' => 11],
-                ['NISN' => '0056148233', 'nama' => "Citra Dewi", 'jenisKelamin' => 'Perempuan', 'alamat' => 'Jl. Gatot Subroto No.3, Jakarta', 'notelp' => '081234567892', 'tingkatKelas' => 12],
-                ['NISN' => '0056148234', 'nama' => "Dian Nugraha", 'jenisKelamin' => 'Laki-laki', 'alamat' => 'Jl. Thamrin No.10, Jakarta', 'notelp' => '081234567893', 'tingkatKelas' => 10],
-                ['NISN' => '0056148235', 'nama' => "Eka Sari", 'jenisKelamin' => 'Perempuan', 'alamat' => 'Jl. Kebon Jeruk No.8, Jakarta', 'notelp' => '081234567894', 'tingkatKelas' => 11],
-                ['NISN' => '0056148236', 'nama' => "Fajar Maulana", 'jenisKelamin' => 'Laki-laki', 'alamat' => 'Jl. Mangga Dua No.9, Jakarta', 'notelp' => '081234567895', 'tingkatKelas' => 12],
-                ['NISN' => '0056148237', 'nama' => "Gita Permata", 'jenisKelamin' => 'Perempuan', 'alamat' => 'Jl. Senayan No.6, Jakarta', 'notelp' => '081234567896', 'tingkatKelas' => 10],
-                ['NISN' => '0056148238', 'nama' => "Hendra Setiawan", 'jenisKelamin' => 'Laki-laki', 'alamat' => 'Jl. Kuningan No.2, Jakarta', 'notelp' => '081234567897', 'tingkatKelas' => 11],
-                ['NISN' => '0056148239', 'nama' => "Indah Lestari", 'jenisKelamin' => 'Perempuan', 'alamat' => 'Jl. Fatmawati No.4, Jakarta', 'notelp' => '081234567898', 'tingkatKelas' => 12],
-                ['NISN' => '0056148240', 'nama' => "Joko Nugraha", 'jenisKelamin' => 'Laki-laki', 'alamat' => 'Jl. Pahlawan No.1, Jakarta', 'notelp' => '081234567899', 'tingkatKelas' => 10]
-            ]
-        ]);
-    })->name('admin.murid');
-
-    Route::get('/profileadmin', function () {
-        return view('profileadmin');
-    })->name('admin.profile');
-});
-
-// Route untuk homepage siswa
 Route::get('/homepage', function () {
     return view('homepage');
 })->name('homepage');
 
-// Route untuk User pages
+// User pages
 Route::get('/User/home', function () {
     return view('/User/homeUser');
-});
+})->name('user.home');
 Route::get('/User/tentangKami', function () {
     return view('/User/tentangKamiUser');
 });
@@ -123,4 +72,48 @@ Route::get('/formekskul', function () {
 });
 Route::get('/pendaftaranekskul', function () {
     return view('pendaftaranekskul');
+});
+
+Route::get('/pendaftaran-siswas', [PendaftaranSiswaController::class, 'index'])->name('pendaftaran-siswas.index');
+Route::post('/pendaftaran-siswas/create', [PendaftaranSiswaController::class, 'create'])->name('pendaftaran-siswas.create');
+
+// Admin dashboard with middleware
+Route::middleware(['admin.auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
+
+    Route::get('/admin/main', [AdminController::class, 'fetchPendingPendaftaranSiswa'])->name('admin.main');
+    Route::patch('/admin/pendaftaran/accept/{id}', [AdminController::class, 'acceptPendaftaran'])->name('admin.acceptPendaftaran');
+    Route::patch('/admin/pendaftaran/reject/{id}', [AdminController::class, 'rejectPendaftaran'])->name('admin.rejectPendaftaran');
+    Route::get('/admin/kelas', [KelasController::class, 'index'])->name('admin.kelas');
+    Route::get('/admin/guru', [GuruController::class, 'index'])->name('admin.guru');
+    Route::get('/admin/jenisekskul', [JenisEkskulController::class, 'index'])->name('admin.jenisekskul');
+    Route::get('/admin/siswa', [SiswaController::class, 'index'])->name('admin.siswa');
+    Route::get('/profileadmin', [AdminController::class, 'index'])->name('admin.profile');
+    Route::put('/profileadmin/{id_admin}/update-picture', [AdminController::class, 'updateProfilePicture'])->name('admin.update.picture');
+
+});
+
+Route::middleware(['siswa.auth'])->group(function () {
+    Route::get('/User/profilUser', [SiswaController::class, 'show'])->name('User.profilUser');
+    Route::post('/profile/update', [SiswaController::class, 'updateProfile'])->name('siswa.update.profile');
+    // User pages
+    Route::get('/User/home', function () {
+        return view('/User/homeUser');
+    })->name('user.home');
+    Route::get('/User/tentangKami', function () {
+        return view('/User/tentangKamiUser');
+    });
+    Route::get('/User/kontak', function () {
+        return view('/User/kontakUser');
+    });
+    Route::get('/User/Eksul', function () {
+        return view('/User/EksulUser');
+    });
+    // Route::get('/User/profil', function () {
+    //     return view('/User/profilUser');
+    // });
 });

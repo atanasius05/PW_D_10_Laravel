@@ -38,17 +38,17 @@ class PendaftaranSiswaController extends Controller
 
         $validatedData['status'] = 'pending';
         $validatedData['tanggal_pendaftaran'] = now();
-        $validatedData['password'] = bcrypt($validatedData['password']);
+        // $validatedData['password'] = bcrypt($validatedData['password']);
 
         $pendaftaranSiswa = Pendaftaran_Siswa::create($validatedData);
         // $pendaftaranSiswa->create($validatedData);
 
         // Cek redirect_to untuk menentukan arah
         if ($request->input('redirect_to') === 'login') {
-            return redirect()->route('loginpage')->with('success', 'Pendaftaran berhasil. Silakan login.');
+            return redirect()->route('login')->with('success', 'Pendaftaran berhasil. Silakan login.');
         }
 
-        return redirect()->route('loginpage')->with('success', 'Pendaftaran berhasil.');
+        return redirect()->route('login')->with('success', 'Pendaftaran berhasil.');
     }
 
     public function update(Request $request, $id)

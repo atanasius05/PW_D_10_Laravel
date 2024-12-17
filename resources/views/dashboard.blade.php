@@ -138,13 +138,14 @@
                         id="guru-menu">
                         <i class="fas fa-user-tie fa-fw me-3"></i><span>Guru</span>
                     </a>
-                    <a href="{{ url('admin/murid') }}" class="list-group-item list-group-item-action py-2"
+                    <a href="{{ url('admin/siswa') }}" class="list-group-item list-group-item-action py-2"
                         id="users-menu">
-                        <i class="fas fa-users fa-fw me-3"></i><span>Murid</span>
+                        <i class="fas fa-users fa-fw me-3"></i><span>Siswa</span>
                     </a>
-                    <!-- <a href="#" class="list-group-item list-group-item-action py-2" id="ppdb-menu">
-                        <i class="fas fa-id-card fa-fw me-3"></i><span>PPDB</span>
-                    </a> -->
+                    <a href="{{ url('admin/jenisekskul') }}" class="list-group-item list-group-item-action py-2"
+                        id="users-menu">
+                        <i class="fas fa-solid fa-layer-group fa-fw me-3"></i><span>Jenis Ekskul</span>
+                    </a>
 
                 </div>
             </div>
@@ -185,8 +186,8 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="{{ url('profileadmin') }}">My profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="{{ url('loginpage') }}">Logout</a></li>
+                            <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+
                         </ul>
                     </li>
                 </ul>
@@ -201,7 +202,8 @@
         @yield('contentmain')
         @yield('contentkelas')
         @yield('contentguru')
-        @yield('contentmurid')
+        @yield('contentsiswa')
+        @yield('contentjenisekskul')
     </div>
     <!--Main layout-->
 
