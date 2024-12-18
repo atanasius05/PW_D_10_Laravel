@@ -16,3 +16,22 @@
     - Email       : adminsmak@sch.co.id
     - Password    : adminsmak    
 
+## Informasi Penting
+Setelah melakukan composer install harap untuk menambahkan autentikasi untuk Admin dan Siswa agar dapat melakukan login, ke dalam directory berikut :
+- PW_D_10_Laravel\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php
+- pada $routeMiddleware = [];
+    - 'admin.auth' => \App\Http\Middleware\AdminAuthenticated::class,
+    - 'siswa.auth' => \App\Http\Middleware\SiswaAuthenticated::class
+ 
+## Contoh :
+  protected $routeMiddleware = [
+        'admin.auth' => \App\Http\Middleware\AdminAuthenticated::class,
+        'siswa.auth' => \App\Http\Middleware\SiswaAuthenticated::class
+    ];
+
+## Tambahan untuk dapat update foto profile Admin dan Siswa
+
+hapus folder storage pada directory public/storage
+lalu ketikkan php artisan storage:link di terminal
+
+
