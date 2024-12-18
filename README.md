@@ -29,7 +29,7 @@ Setelah melakukan composer install harap untuk menambahkan autentikasi untuk Adm
         'siswa.auth' => \App\Http\Middleware\SiswaAuthenticated::class
     ];
 
-## Tambahan untuk dapat update profile Admin dan Siswa
+## Tambahan untuk dapat update foto profile Admin dan Siswa
 
 hapus folder storage pada directory public/storage
 lalu ketikkan php artisan storage:link di terminal
